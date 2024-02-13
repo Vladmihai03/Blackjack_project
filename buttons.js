@@ -4,15 +4,20 @@ const stand_btn = document.getElementById('stand');
 const double_btn = document.getElementById('double');
 const new_game_btn = document.getElementById('new_game');
 
-const list = [`<button id="new_game">New Game</button>
-<button id="hit">HIT</button>
-<button id="stand">STAND</button>
-<button id="double">DOUBLE</button>`];
+function disable(button){
+  button.disabled = true;
+}
+
+function enable(button){
+  button.disabled = false;
+}
 
 
 export {
   play_btn,
   hit_btn,
   stand_btn,
-  double_btn
+  double_btn,
+  disable,
+  enable
 }

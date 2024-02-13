@@ -1,4 +1,6 @@
 import {result,dealer, player} from './div.js';
+import { play_btn, stand_btn, hit_btn, double_btn,disable,enable} from './buttons.js';
+
 class Player {
   constructor(balance) {
     this.balance = balance;
@@ -49,6 +51,7 @@ class Player {
         return value.toString();
     }
   }
+
 
 
   hit(participant) {
@@ -109,25 +112,56 @@ class Player {
       cardDiv.textContent = cardName;
       player.appendChild(cardDiv);
     });
+
+    if(this.hasBlackjack(this.dealer)){
+      result.textContent = 'Dealer has blackjack! You lose!';
+      this.dealer_second.textContent = this.dealer.names[1] = this.conversion(this.dealer.cards[1]);
+      this.dealer_second.classList.remove('second-card');
+      enable(play_btn);
+      return;
   }
+
+  // Verifică dacă jucătorul are blackjack
+  if(this.hasBlackjack(this.player)){
+      result.textContent = 'BLACKJACK! You win!';
+      enable(play_btn);
+      return;
+  }
+
+  }
+
+  hasBlackjack(participant) {
+    const sum = this.sum(participant);
+    if (sum === 21 && participant.cards.length === 2) {
+        return true;
+    }
+    return false;
+}
+
   
   compare(participant1, participant2){
     if(this.sum(participant1) === this.sum(participant2)){
       console.log('');
       console.log("PUSH");
       result.textContent = 'PUSH';
+      play_btn.disabled = false;
     }else if(this.sum(participant1) > this.sum(participant2)){
       console.log('');
       console.log("LOSE");
       result.textContent = 'LOSE';
+      play_btn.disabled = false;
     }else{
       console.log('');
       console.log("WIN");
       result.textContent = 'WIN';
+      play_btn.disabled = false;
     }
   }
 
   stand(participant1, participant2) {
+    disable(hit_btn);
+    disable(double_btn);
+    disable(stand_btn);
     this.dealer_second.textContent = this.dealer.names[1] = this.conversion(this.dealer.cards[1]);
     this.dealer_second.classList.remove('second-card');
     if (participant2.ok === 0) {
@@ -143,9 +177,11 @@ class Player {
     }
   }
 
-
+  
   double_down(participant){
-    this.balance -=10;
+    disable(double_btn);
+    disable(hit_btn);
+    disable(stand_btn);
     const card = this.randomm();
     const name = this.conversion(card);
 
@@ -168,6 +204,10 @@ class Player {
    participant.cards = [];
    participant.names = [];
    participant.ok = 1;
+   disable(double_btn);
+   disable(hit_btn);
+   disable(stand_btn);
+   enable(play_btn);
     }
 
   sum(participant) {

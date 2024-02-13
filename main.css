@@ -35,13 +35,14 @@
 
 .result {
   padding: 10px;
-  margin: 10px 10px 10px 180px;
+  margin: 10px 10px 10px 210px;
   text-align: center;
   border: 1px solid black;
   width: 200px; /* Poți ajusta dimensiunea în funcție de necesități */
   vertical-align: center;
   color: red;
   font-weight: bold;
+  height: 30px;
 }
 .cards {
   flex: 1fr;
