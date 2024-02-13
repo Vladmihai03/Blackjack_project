@@ -1,0 +1,61 @@
+.game {
+  margin: 70px auto;
+  background-color: lightblue;
+  border: 2px solid black;
+  width: 1000px; 
+  height: 800px; 
+  padding: 50px ;
+  display: grid;
+  grid-template-rows:  50px auto auto; /* Adaugat */
+  justify-content: center;
+}
+
+.dealer, .player {
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+  border: 1px solid black;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.helpers button {
+  margin: 5px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.helpers {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.result {
+  padding: 10px;
+  margin: 10px 10px 10px 180px;
+  text-align: center;
+  border: 1px solid black;
+  width: 200px; /* Poți ajusta dimensiunea în funcție de necesități */
+  vertical-align: center;
+  color: red;
+  font-weight: bold;
+}
+.cards {
+  flex: 1fr;
+  margin-left: 20px;
+  font-size: 30px;
+  border-style: solid;
+  border-color: black;
+  padding: 5px;
+  color: red;
+}
+
+.second-card {
+  background-color: lightgray; /* Schimbă fundalul pentru a doua carte */
+  color: black; /* Schimbă culoarea textului pentru a doua carte */
+  font-style: bold;
+  /* Alte stilizări dorite pentru a doua carte */
+}
