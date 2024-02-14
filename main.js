@@ -1,5 +1,6 @@
 import Player from './class.js';
 import { play_btn, stand_btn, hit_btn, double_btn,disable,enable} from './buttons.js';
+import { total_dealer,total_player} from './div.js';
 
 
 const player = new Player(1000);
@@ -12,6 +13,7 @@ play_btn.addEventListener('click', () =>{
     enable(double_btn);
     disable(play_btn);
     play_btn.textContent = 'Play Again';
+
 });
 
 double_btn.addEventListener('click', () =>{

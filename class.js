@@ -1,6 +1,5 @@
-import {result,dealer, player} from './div.js';
-import { play_btn, stand_btn, hit_btn, double_btn,disable,enable} from './buttons.js';
-
+import {result,dealer, player,total_dealer,total_player} from './div.js';
+import { play_btn, stand_btn, hit_btn, double_btn,disable,enable,restart} from './buttons.js';  
 class Player {
   constructor(balance) {
     this.balance = balance;
@@ -31,6 +30,8 @@ class Player {
     result.innerHTML = '';
     dealer.innerHTML = '';
     player.innerHTML = '';
+    total_dealer.textContent = '';
+    total_player.textContent = '';
   }
 
   randomm() {
@@ -55,85 +56,103 @@ class Player {
 
 
   hit(participant) {
+    // Se extrage o nouă carte și numele ei
     const card = this.randomm();
     const name = this.conversion(card);
-    
+
+    // Se adaugă cartea la participant
     participant.cards.push(card);
     participant.names.push(name);
-    if(participant == this.player){
-      const cardDiv = document.createElement('div');
-      cardDiv.classList.add('cards');
-      cardDiv.textContent = name;
-      player.appendChild(cardDiv);
-    }else{
-      const cardDiv = document.createElement('div');
-      cardDiv.classList.add('cards');
-      cardDiv.textContent = name;
-      dealer.appendChild(cardDiv);
+
+    // Se creează un element div pentru afișarea cărții adăugate
+    const cardDiv = document.createElement('div');
+    cardDiv.classList.add('cards');
+    cardDiv.textContent = name;
+
+    // Se adaugă cartea la interfață, în funcție de participant
+    if (participant === this.player) {
+        player.appendChild(cardDiv);
+    } else {
+        dealer.appendChild(cardDiv);
     }
-    if (this.sum(participant) > 21 && participant === this.dealer) {
-      this.bust(participant);
-    } else if (this.sum(participant) > 21) {
-      this.bust(participant);
-      if(participant == this.player){
-        result.textContent = 'LOSE';
-      }else{
-        result.textContent = 'WIN';
-      }
+
+    // Se verifică dacă participantul a depășit 21 de puncte
+    if (this.sum(participant) > 21) {
+        this.bust(participant);
+        // Se afișează rezultatul în funcție de câștigător
+        if (participant === this.player) {
+            result.textContent = 'LOSE';
+            total_player.textContent = 'BUST';
+        } else {
+            result.textContent = 'WIN';
+            total_dealer.textContent = 'BUST';
+        }
+    } else {
+        // Se actualizează totalul jucătorului sau dealerului
+        if (participant === this.player) {
+            total_player.textContent = `Total: ${this.sum(this.player)}`;
+        } else {
+            total_dealer.textContent = `Total: ${this.sum(this.dealer)}`;
+        }
     }
-  }
-  
+}
+
   newGame() {
     this.initializeCards();
     this.balance -= 10;
-    /*
-    const div1 = document.createElement('div');
-        div1.classList.add('value-box');
-        div1.textContent = value1;
-        outputDiv.appendChild(div1);
-    */
+    const ok = 0;
+
     this.dealer.names.forEach((cardName, index) => {
-      const cardDiv = document.createElement('div');
-      cardDiv.classList.add('cards');
-      if (index === 1) {
-          cardDiv.classList.add('second-card'); // Adăugare clasă pentru a doua carte
-          cardDiv.textContent = "?"; // Text pentru a doua carte, de exemplu "Hidden"
-      } else {
-          cardDiv.textContent = cardName;
-      }
-      dealer.appendChild(cardDiv);
+        const cardDiv = document.createElement('div');
+        cardDiv.classList.add('cards');
+        if (index === 1) {
+            cardDiv.classList.add('second-card');
+            cardDiv.textContent = "?";
+        } else {
+            cardDiv.textContent = cardName;
+        }
+        dealer.appendChild(cardDiv);
     });
+
     this.dealer_second = document.querySelector('.cards.second-card');
 
-    
     this.player.names.forEach(cardName => {
-      const cardDiv = document.createElement('div');
-      cardDiv.classList.add('cards');
-      cardDiv.textContent = cardName;
-      player.appendChild(cardDiv);
+        const cardDiv = document.createElement('div');
+        cardDiv.classList.add('cards');
+        cardDiv.textContent = cardName;
+        player.appendChild(cardDiv);
     });
 
-    if(this.hasBlackjack(this.dealer)){
-      result.textContent = 'Dealer has blackjack! You lose!';
-      this.dealer_second.textContent = this.dealer.names[1] = this.conversion(this.dealer.cards[1]);
-      this.dealer_second.classList.remove('second-card');
-      enable(play_btn);
-      return;
+    if (this.hasBlackjack(this.dealer)) {
+        total_dealer.textContent = 'Blackjack';
+        result.textContent = 'Dealer has blackjack! You lose!';
+        this.dealer_second.textContent = this.dealer.names[1] = this.conversion(this.dealer.cards[1]);
+        this.dealer_second.classList.remove('second-card');
+        ok =1;
+    }
+
+    if (this.hasBlackjack(this.player)) {
+        total_player.textContent = 'Blackjack';
+        result.textContent = 'BLACKJACK! You win!';
+        this.dealer_second.textContent = this.dealer.names[1] = this.conversion(this.dealer.cards[1]);
+        this.dealer_second.classList.remove('second-card');
+        ok =1;
+    }
+    if(ok === 1){
+      play_btn.disabled = false;
+    }else{
+      total_player.textContent = `Total: ${this.sum(this.player)}`;
+      total_dealer.textContent = `Total: ${this.sum(this.dealer)-this.dealer.cards[1]}`;
+    }
   }
 
-  // Verifică dacă jucătorul are blackjack
-  if(this.hasBlackjack(this.player)){
-      result.textContent = 'BLACKJACK! You win!';
-      enable(play_btn);
-      return;
-  }
-
-  }
+  
 
   hasBlackjack(participant) {
     const sum = this.sum(participant);
     if (sum === 21 && participant.cards.length === 2) {
         return true;
+
     }
     return false;
 }
@@ -141,18 +160,12 @@ class Player {
   
   compare(participant1, participant2){
     if(this.sum(participant1) === this.sum(participant2)){
-      console.log('');
-      console.log("PUSH");
       result.textContent = 'PUSH';
       play_btn.disabled = false;
     }else if(this.sum(participant1) > this.sum(participant2)){
-      console.log('');
-      console.log("LOSE");
       result.textContent = 'LOSE';
       play_btn.disabled = false;
     }else{
-      console.log('');
-      console.log("WIN");
       result.textContent = 'WIN';
       play_btn.disabled = false;
     }
@@ -164,13 +177,17 @@ class Player {
     disable(stand_btn);
     this.dealer_second.textContent = this.dealer.names[1] = this.conversion(this.dealer.cards[1]);
     this.dealer_second.classList.remove('second-card');
+
     if (participant2.ok === 0) {
         while (this.sum(participant1) < 17 && participant1.ok === 0) {
+            total_dealer.textContent = `Total: ${this.sum(this.dealer)}`;
             this.hit(participant1);
         }
         if (this.sum(participant1) >= 17 && this.sum(participant1) <= 21) {
+            total_dealer.textContent = `Total: ${this.sum(this.dealer)}`;
             this.compare(participant1, participant2);
         } else {
+            total_dealer.textContent = `BUST`;
             result.textContent = 'WIN';
         }
         participant2.ok = 1; // Actualizează ok pentru participant2
@@ -193,8 +210,8 @@ class Player {
     player.appendChild(cardDiv);
     if(this.sum(participant) >21){
       this.bust(participant);
-      console.log("BUST");
       result.textContent = 'LOSE';
+      total_player.textContent = `BUST`;
     }else{
       this.stand(this.dealer, participant);
     }
@@ -204,10 +221,7 @@ class Player {
    participant.cards = [];
    participant.names = [];
    participant.ok = 1;
-   disable(double_btn);
-   disable(hit_btn);
-   disable(stand_btn);
-   enable(play_btn);
+   restart();
     }
 
   sum(participant) {
