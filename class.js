@@ -137,11 +137,14 @@ class Player {
         // Se actualizează totalul jucătorului sau dealerului
         if (participant === this.player) {
             total_player.textContent = `Total: ${this.sum(this.player)}`;
+            this.ace(this.player.names[this.player.names.length-1]);
         } else {
             total_dealer.textContent = `Total: ${this.sum(this.dealer)}`;
         }
+        
     }
 }
+
 
   newGame() {
     this.initializeCards();
@@ -167,6 +170,8 @@ class Player {
         cardDiv.textContent = cardName;
         player.appendChild(cardDiv);
     });
+
+
     if (this.hasBlackjack(this.dealer)) {
         total_dealer.textContent = 'Blackjack';
         result.textContent += ` Blackjack! You lost ${this.betAmount * 1.5} units!`;
@@ -190,6 +195,8 @@ class Player {
       restart();
     }else{
       total_player.textContent = `Total: ${this.sum(this.player)}`;
+      this.ace(this.player.names[0]);
+      this.ace(this.player.names[1]);
       total_dealer.textContent = `Total: ${this.sum(this.dealer)-this.dealer.cards[1]}`;
     }
     
@@ -256,6 +263,7 @@ class Player {
 
     double_btn.setAttribute('data-double-down', 'true');
     total_player.textContent = `Total: ${this.sum(this.player)}`;
+    this.ace(this.player.names[this.player.names.length-1]);
 
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('cards');
@@ -303,7 +311,13 @@ class Player {
     return sum;
   }
 
-    
+  ace(card) {
+    if(card == 'Ace' && this.sum(this.player)<=21){
+      total_player.textContent = `Total: ${(this.sum(this.player)-10)}/${this.sum(this.player)}`;
+    }
   }
+
+
+}
 
 export default Player;
