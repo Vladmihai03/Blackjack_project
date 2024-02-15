@@ -1,8 +1,9 @@
-import {result,dealer, player,total_dealer,total_player} from './div.js';
+import {result,dealer, player,total_dealer,total_player, balanceAmount} from './div.js';
 import { play_btn, stand_btn, hit_btn, double_btn,disable,enable,restart} from './buttons.js';  
 class Player {
-  constructor(balance) {
+  constructor(balance, betAmount) {
     this.balance = balance;
+    this.betAmount = betAmount;
     this.player = {
       cards: [],
       names: [],
@@ -15,7 +16,49 @@ class Player {
     };
 
     this.dealer_second = null;
+    this.outcome = '';
   }
+
+  updateBalanceAndText() {
+    const isDoubleDown = double_btn.getAttribute('data-double-down') === 'true';
+
+    switch (this.outcome) {
+      case 'WIN':
+        // Aplică logica pentru câștig
+        if (isDoubleDown) {
+          this.balance += this.betAmount * 2; // Câștigul este dublu pentru parierea dublă
+          result.textContent += ` You won ${this.betAmount * 2} units! (Double Down)`;
+        } else {
+          this.balance += this.betAmount;
+          result.textContent += ` You won ${this.betAmount} units!`;
+        }
+        break;
+      case 'LOSE':
+        // Aplică logica pentru pierdere
+        if (isDoubleDown) {
+          this.balance -= this.betAmount * 2; // Pierderea este dublă pentru parierea dublă
+          result.textContent += ` You lost ${this.betAmount * 2} units! (Double Down)`;
+        } else {
+          this.balance -= this.betAmount;
+          result.textContent += ` You lost ${this.betAmount} units!`;
+        }
+        break;
+      case 'PUSH':
+        // Aplică logica pentru push
+        result.textContent += ' Push! Your bet is returned.';
+        break;
+      case 'BJ':
+          this.balance += this.betAmount * 1.5;
+        break;
+      default:
+        break;
+    }
+
+    // Actualizează balanța și elementul HTML corespunzător
+    balanceAmount.textContent = this.balance;
+    double_btn.removeAttribute('data-double-down');
+}
+
 
   initializeCards() {
     this.player.cards = [this.randomm(), this.randomm()];
@@ -32,6 +75,7 @@ class Player {
     player.innerHTML = '';
     total_dealer.textContent = '';
     total_player.textContent = '';
+    this.outcome = '';
   }
 
   randomm() {
@@ -81,11 +125,13 @@ class Player {
         this.bust(participant);
         // Se afișează rezultatul în funcție de câștigător
         if (participant === this.player) {
-            result.textContent = 'LOSE';
+            this.outcome  = 'LOSE';
             total_player.textContent = 'BUST';
+            this.updateBalanceAndText();
         } else {
-            result.textContent = 'WIN';
+            this.outcome = 'WIN';
             total_dealer.textContent = 'BUST';
+            this.updateBalanceAndText();
         }
     } else {
         // Se actualizează totalul jucătorului sau dealerului
@@ -99,8 +145,7 @@ class Player {
 
   newGame() {
     this.initializeCards();
-    this.balance -= 10;
-    const ok = 0;
+    let ok = 0;
 
     this.dealer.names.forEach((cardName, index) => {
         const cardDiv = document.createElement('div');
@@ -122,10 +167,11 @@ class Player {
         cardDiv.textContent = cardName;
         player.appendChild(cardDiv);
     });
-
     if (this.hasBlackjack(this.dealer)) {
         total_dealer.textContent = 'Blackjack';
-        result.textContent = 'Dealer has blackjack! You lose!';
+        result.textContent += ` Blackjack! You lost ${this.betAmount * 1.5} units!`;
+        this.outcome = 'BJ';
+        this.updateBalanceAndText();
         this.dealer_second.textContent = this.dealer.names[1] = this.conversion(this.dealer.cards[1]);
         this.dealer_second.classList.remove('second-card');
         ok =1;
@@ -133,17 +179,20 @@ class Player {
 
     if (this.hasBlackjack(this.player)) {
         total_player.textContent = 'Blackjack';
-        result.textContent = 'BLACKJACK! You win!';
+        result.textContent += ` Blackjack! You won ${this.betAmount * 1.5} units!`;
+        this.outcome = 'BJ';
+        this.updateBalanceAndText();
         this.dealer_second.textContent = this.dealer.names[1] = this.conversion(this.dealer.cards[1]);
         this.dealer_second.classList.remove('second-card');
         ok =1;
     }
     if(ok === 1){
-      play_btn.disabled = false;
+      restart();
     }else{
       total_player.textContent = `Total: ${this.sum(this.player)}`;
       total_dealer.textContent = `Total: ${this.sum(this.dealer)-this.dealer.cards[1]}`;
     }
+    
   }
 
   
@@ -160,15 +209,16 @@ class Player {
   
   compare(participant1, participant2){
     if(this.sum(participant1) === this.sum(participant2)){
-      result.textContent = 'PUSH';
+      this.outcome = 'PUSH';
       play_btn.disabled = false;
     }else if(this.sum(participant1) > this.sum(participant2)){
-      result.textContent = 'LOSE';
+      this.outcome = 'LOSE';
       play_btn.disabled = false;
     }else{
-      result.textContent = 'WIN';
+      this.outcome = 'WIN';
       play_btn.disabled = false;
     }
+    this.updateBalanceAndText();
   }
 
   stand(participant1, participant2) {
@@ -188,7 +238,6 @@ class Player {
             this.compare(participant1, participant2);
         } else {
             total_dealer.textContent = `BUST`;
-            result.textContent = 'WIN';
         }
         participant2.ok = 1; // Actualizează ok pentru participant2
     }
@@ -204,25 +253,31 @@ class Player {
 
     participant.cards.push(card);
     participant.names.push(name);
+
+    double_btn.setAttribute('data-double-down', 'true');
+    total_player.textContent = `Total: ${this.sum(this.player)}`;
+
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('cards');
     cardDiv.textContent = name;
     player.appendChild(cardDiv);
     if(this.sum(participant) >21){
       this.bust(participant);
-      result.textContent = 'LOSE';
+      this.outcome = 'LOSE';
       total_player.textContent = `BUST`;
+      this.updateBalanceAndText();
     }else{
       this.stand(this.dealer, participant);
     }
     }
   
-  bust(participant){
-   participant.cards = [];
-   participant.names = [];
-   participant.ok = 1;
-   restart();
-    }
+    bust(participant) {
+      participant.cards = [];
+      participant.names = [];
+      participant.ok = 1;
+      restart();
+  }
+  
 
   sum(participant) {
     let sum = 0;
@@ -247,6 +302,7 @@ class Player {
     }
     return sum;
   }
+
     
   }
 

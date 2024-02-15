@@ -1,19 +1,20 @@
 import Player from './class.js';
 import { play_btn, stand_btn, hit_btn, double_btn,disable,enable} from './buttons.js';
-import { total_dealer,total_player} from './div.js';
+import { total_dealer,total_player, betInput, balanceAmount} from './div.js';
 
 
-const player = new Player(1000);
-
+let player;
 
 play_btn.addEventListener('click', () =>{
-    player.newGame();
+    const betAmount = betInput.value; // Obțineți valoarea pariului
+    const balance = balanceAmount.textContent; // Obțineți valoarea balanței
+    player = new Player(parseInt(balance), parseInt(betAmount)); // Instantiați clasa Player cu balanța și pariul
     enable(hit_btn);
     enable(stand_btn);
     enable(double_btn);
     disable(play_btn);
+    player.newGame();
     play_btn.textContent = 'Play Again';
-
 });
 
 double_btn.addEventListener('click', () =>{

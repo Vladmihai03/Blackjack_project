@@ -2,10 +2,11 @@
 <html>
   <head>
     <title>BLACKJACK</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="test.css">
   </head>
   <body>
     <div class="game">
+      <!-- Element pentru afișarea balanței -->
       <div class="result"></div>
       <div class="dealer">
         <div class="dealer-cards">
@@ -19,6 +20,12 @@
         </div>
         <div class="total-player"></div>
       </div>
+      <div class="bet">
+        <label id="Abel" for="betAmount">Pariu:</label>
+        <input type="number" id="betAmount" min="10" max="100">
+        <div class="balance">Balanta: <span id="balanceAmount">1000</span> unități</div>
+      </div>
+      <!-- Etichetă și input pentru suma pariului -->
       <div class="helpers">
         <button id="play">PLAY</button>
         <button id="hit" disabled>HIT</button>

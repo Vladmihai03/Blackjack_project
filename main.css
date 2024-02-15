@@ -6,7 +6,7 @@
   height: 800px; 
   padding: 50px ;
   display: grid;
-  grid-template-rows:  50px auto auto; /* Adaugat */
+  grid-template-rows:  50px auto auto 100px 50px; /* Adaugat */
   justify-content: center;
 }
 
@@ -72,4 +72,26 @@
   color: black; /* Schimbă culoarea textului pentru a doua carte */
   font-style: bold;
   /* Alte stilizări dorite pentru a doua carte */
+}
+
+
+.bet {
+  display: grid;
+  grid-template-columns: 50px 60px auto;
+  height: 40px; /* Reducerea înălțimii */
+  grid-column-gap: 10px; /* Spațiu între coloane */
+  grid-row-gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+}
+
+#Abel {
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.balance {
+  font-size: 20px;
+  font-style: bold;
 }
