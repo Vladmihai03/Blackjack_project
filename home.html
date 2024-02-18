@@ -2,9 +2,20 @@
 <html>
   <head>
     <title>BLACKJACK</title>
-    <link rel="stylesheet" href="test.css">
+    <link rel="stylesheet" href="main.css">
   </head>
   <body>
+    <div id="insurance-notification" style="display: none;">
+      <p>Dealer might have a blackjack. Would you like to get insurance?</p>
+      <label for="insurance-amount">Insurance Amount:</label>
+      <input type="number" id="insurance-amount" min="0" max="20" placeholder="Enter amount  (20 max)">
+      <button id="take-insurance">Insurance</button>
+      <button id="decline-insurance">No insurance</button>
+    </div>    
+    <div id="no-blackjack-notification" style="display: none;">
+      <p>Dealer doesn't have a blackjack!</p>
+      <button id="response">Close</button>
+    </div> 
     <div class="game">
       <!-- Element pentru afișarea balanței -->
       <div class="result"></div>
@@ -21,9 +32,9 @@
         <div class="total-player"></div>
       </div>
       <div class="bet">
-        <label id="Abel" for="betAmount">Pariu:</label>
-        <input type="number" id="betAmount" min="10" max="100">
-        <div class="balance">Balanta: <span id="balanceAmount">1000</span> unități</div>
+        <label id="Abel" for="betAmount">Bet:</label>
+        <input type="number" id="betAmount"  min="10" max="100">
+        <div class="balance">Balance: <span id="balanceAmount">100</span> units</div>
       </div>
       <!-- Etichetă și input pentru suma pariului -->
       <div class="helpers">
@@ -36,5 +47,6 @@
     <script src="class.js" type="module"></script>
     <script src="main.js" type="module"></script>
     <script src="div.js" type="module"></script>
+    <script src="insurance.js" type="module"></script>
   </body>
 </html>
