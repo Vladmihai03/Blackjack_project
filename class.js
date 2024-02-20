@@ -540,7 +540,6 @@ class Player {
 
     
     standSplit(){
-        console.log(this.player.split.first_hand.ok, this.player.split.second_hand.ok);
         hit_btn.removeAttribute('data-split');
         stand_btn.removeAttribute('data-split');
         disable(hit_btn);
@@ -573,10 +572,10 @@ class Player {
             total_dealer.textContent = `BUST`;
             this.checkSplitResult();
         }
+        restart();
     }
 
     checkSplitResult() {
-        console.log(this.player.split.first_hand.ok,this.player.split.second_hand.ok)
         if (total_dealer.textContent === 'BUST') {
             if (this.player.split.first_hand.ok === 0 && this.player.split.second_hand.ok === 0) {
                 result.textContent = `Win BOTH HANDS`;
@@ -605,7 +604,7 @@ class Player {
                     balanceAmount.textContent = this.balance;
                 }else if((this.sum(this.player.split.first_hand) > this.sum(this.dealer)) && (this.sum(this.player.split.second_hand) < this.sum(this.dealer))){
                     result.textContent = `Win FIRST HAND, Lost SECOND HAND`;
-                    his.balance += this.betAmount * 2;
+                    this.balance += this.betAmount * 2;
                     balanceAmount.textContent = this.balance;
                 }else{
                     result.textContent = `Lost BOTH`;
@@ -628,7 +627,6 @@ class Player {
                 }
             }
         }
-        restart();
     }
     
 
