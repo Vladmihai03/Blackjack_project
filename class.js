@@ -400,6 +400,11 @@ class Player {
 
     // Realizeaza o carte in plus pentru jucator cu dublare
     double_down(participant, parentElement, cardClass, totalElement, secparentElement, seccardClass, sectotalElement) {
+        if (this.betAmount > this.balance) {
+            alert("Your bet exceeds your balance. Please lower your bet amount.");
+            restart();
+            return; // Întrerupe executarea metodei în caz de pariu excesiv
+        }else{
         disable(double_btn);
         disable(hit_btn);
         disable(stand_btn);
@@ -427,6 +432,7 @@ class Player {
             this.stand(this.dealer, participant,secparentElement,seccardClass,sectotalElement);
         }
     }
+}
     
 
     // Marcheaza un participant ca "bust"

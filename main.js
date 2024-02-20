@@ -1,5 +1,5 @@
 import Player from './class.js';
-import { play_btn, stand_btn, hit_btn, double_btn,disable,enable, split_btn} from './buttons.js';
+import { play_btn, stand_btn, hit_btn, double_btn,disable,enable, split_btn,restart} from './buttons.js';
 import { total_dealer,total_player, betInput, balanceAmount,playeer,dealer} from './div.js';
 import { showSplitElement, hideSplitElement } from './split.js';
 
@@ -19,7 +19,12 @@ play_btn.addEventListener('click', () =>{
 });
 
 double_btn.addEventListener('click', () =>{
-  player.double_down(player.player, playeer, 'cards', total_player,dealer,'cards', total_dealer);
+    if (player.balance === 0) {
+        disable(double_btn);
+        alert("You don't have balance to double down ");
+    }else{
+        player.double_down(player.player, playeer, 'cards', total_player,dealer,'cards', total_dealer);
+    }
 });
 
 hit_btn.addEventListener('click', () => {
