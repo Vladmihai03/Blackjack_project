@@ -2,6 +2,7 @@ const play_btn = document.getElementById('play');
 const hit_btn = document.getElementById('hit');
 const stand_btn = document.getElementById('stand');
 const double_btn = document.getElementById('double');
+const split_btn = document.getElementById('split');
 
 
 function disable(button){
@@ -26,6 +27,7 @@ export {
   hit_btn,
   stand_btn,
   double_btn,
+  split_btn,
   disable,
   enable,
   restart

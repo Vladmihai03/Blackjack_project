@@ -2,8 +2,8 @@
   margin: 70px auto;
   background-color: lightblue;
   border: 2px solid black;
-  width: 1000px; 
-  height: 800px; 
+  width: 1050px; 
+  height: 850px; 
   padding: 50px ;
   display: grid;
   grid-template-rows:  50px auto auto 100px 50px; /* Adaugat */
@@ -11,7 +11,7 @@
 }
 
 .dealer, .player {
-  padding: 20px;
+  padding: 15px;
   margin: 10px;
   text-align: center;
   border: 1px solid black;
@@ -47,16 +47,16 @@
 
 .result {
   padding: 17px 10px 10px 10px;
-  margin: 10px 10px 10px 200px;
+  margin: 10px auto; /* Setăm margin: auto pentru a centra div-ul pe orizontală */
   text-align: center;
   border: 1px solid black;
-  width: 200px; /* Poți ajusta dimensiunea în funcție de necesități */
-  vertical-align: center;
+  width: 200px;
   color: red;
   font-weight: bold;
   height: 30px;
   font-size: 18px;
 }
+
 .cards {
   flex: 1fr;
   margin-left: 20px;
@@ -135,4 +135,40 @@
   height: 30px;
   width: 60px;
   border-radius: 8px;
+}
+
+.hand {
+  margin-bottom: 20px;
+}
+
+.cards-container-1, .cards-container-2 {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cards-split {
+  flex: 1fr;
+  margin-left: 20px;
+  font-size: 30px;
+  border-style: solid;
+  border-color: black;
+  padding: 5px;
+  color: red;
+}
+
+.total-split-1, .total-split-2 {
+  font-weight: bold;
+  margin-top: 10px;
+  margin-top: 20px; /* Modificare */
+  font-size: 20px;
+}
+
+.hand-1{
+  margin-right: 100px;
+}
+
+.hand-2 {
+  margin-left: 100px;
 }
