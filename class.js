@@ -143,13 +143,11 @@ class Player {
             alert("Please enter a valid bet amount.");
             restart();
             return;
-        }
-    
-        if (this.betAmount > this.balance) {
+        }else if (this.betAmount > this.balance) {
             alert("Your bet exceeds your balance. Please lower your bet amount.");
             restart();
             return; // Întrerupe executarea metodei în caz de pariu excesiv
-        }
+        }else{
 
         this.initializeCards();
         this.balance -= this.betAmount;
@@ -190,6 +188,7 @@ class Player {
 
         // Niciun blackjack, continuăm jocul
         this.continueGame(this.player, total_player);
+    }
     }
     }
 
