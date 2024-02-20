@@ -112,6 +112,7 @@ class Player {
         this.player.split.second_hand.ok = 0;
         this.player.split.first_hand.sd = 0;
         this.player.split.second_hand.sd = 0;
+        document.getElementById('insurance-amount').value = '';
     }
 
     // Generează un număr aleatoriu între 1 și 13 pentru reprezentarea cărților
@@ -219,7 +220,6 @@ class Player {
             hideInsuranceNotification();
             if (this.hasBlackjack(this.dealer)) {
                 this.handleDealerBlackjack();
-                this.revealDealerCard();
             }else{
                 showResponseNotification();
                 document.getElementById('response').addEventListener('click', () => {
@@ -475,6 +475,7 @@ class Player {
             alert("You can only split when you have two cards of the same value.");
             return;
         }
+        disable(double_btn);
         hit_btn.setAttribute('data-split', 'true');
         stand_btn.setAttribute('data-split', 'true');
         this.balance -= this.betAmount;
@@ -576,17 +577,18 @@ class Player {
     }
 
     checkSplitResult() {
+        console.log(this.player.split.first_hand.ok,this.player.split.second_hand.ok)
         if (total_dealer.textContent === 'BUST') {
             if (this.player.split.first_hand.ok === 0 && this.player.split.second_hand.ok === 0) {
                 result.textContent = `Win BOTH HANDS`;
                 this.balance += this.betAmount * 4;
                 balanceAmount.textContent = this.balance;
             } else if (this.player.split.first_hand.ok === 1 && this.player.split.second_hand.ok === 0) {
-                result.textContent = `Win FIRST HAND, Lost SECOND HAND`;
+                result.textContent = `Lost FIRST HAND, Win SECOND HAND`;
                 this.balance += this.betAmount * 2;
                 balanceAmount.textContent = this.balance;
             } else if (this.player.split.first_hand.ok === 0 && this.player.split.second_hand.ok === 1) {
-                result.textContent = `Lost FIRST HAND, Win SECOND HAND`;
+                result.textContent = `Win FIRST HAND, Lost SECOND HAND`;
                 this.balance += this.betAmount * 2;
                 balanceAmount.textContent = this.balance;
             } else {
