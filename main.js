@@ -31,6 +31,7 @@ hit_btn.addEventListener('click', () => {
           player.hit(player.player.split.second_hand, document.querySelector('.hand-2 .cards-container-2'), 'cards-split', document.querySelector('.total-split-2'));
       }
   } else {
+      disable(double_btn);
       // Dacă nu există atributul data-split, aplicați hit pentru mâna principală
       player.hit(player.player, playeer, 'cards', total_player);
   }

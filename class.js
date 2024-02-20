@@ -1,7 +1,7 @@
 import {result, dealer, playeer, total_dealer, total_player, balanceAmount} from './div.js';
 import {play_btn, stand_btn, hit_btn, double_btn, disable, enable, restart,split_btn} from './buttons.js';
 import {showInsuranceNotification, hideInsuranceNotification,showResponseNotification,hideResponseNotification} from './insurance.js';
-import {showSplitElement,hideSplitElement } from './split.js';
+import {showSplitElement,hideSplitElement} from './split.js';
 
 // Clasa Player reprezintă logica jocului și acțiunile jucătorului
 class Player {
@@ -88,7 +88,7 @@ class Player {
 
     // Inițializează cărțile jucătorului și dealerului la începutul unui joc nou
     initializeCards() {
-        this.player.cards = [12,12];
+        this.player.cards = [this.randomm(), this.randomm()];
         this.dealer.cards = [this.randomm(), this.randomm()];
         this.dealer.ok = 0;
         this.player.ok = 0;
@@ -236,6 +236,7 @@ class Player {
         this.balance += betAmount * 3;
         balanceAmount.textContent = this.balance;
         this.revealDealerCard();
+        hideSplitElement();
         restart();
     }
 
@@ -244,6 +245,7 @@ class Player {
         total_dealer.textContent = 'BLACKJACK';
         result.textContent = ` Blackjack! You lost ${this.betAmount} units!`;
         this.revealDealerCard();
+        hideSplitElement();
         restart();
     }
 
