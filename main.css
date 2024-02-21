@@ -1,3 +1,4 @@
+/* Stiluri CSS pentru elementul '.game' */
 .game {
   margin: 70px auto;
   background-color: lightblue;
@@ -6,10 +7,11 @@
   height: 850px; 
   padding: 50px ;
   display: grid;
-  grid-template-rows:  50px auto auto 100px 50px; /* Adaugat */
+  grid-template-rows:  50px auto auto 100px 50px; /* Adăugat */
   justify-content: center;
 }
 
+/* Stiluri CSS pentru elementele '.dealer' și '.player' */
 .dealer, .player {
   padding: 15px;
   margin: 10px;
@@ -21,6 +23,7 @@
   align-items: center; /* Modificare */
 }
 
+/* Stiluri CSS pentru elementele '.dealer-cards' și '.player-cards' */
 .dealer-cards, .player-cards {
   margin-top: 80px;
   display: flex;
@@ -28,23 +31,27 @@
   justify-content: center;
 }
 
+/* Stiluri CSS pentru elementele '.total-dealer' și '.total-player' */
 .total-dealer, .total-player {
   margin-top: 30px; /* Modificare */
   font-size: 30px;
 }
 
+/* Stiluri CSS pentru butoanele din '.helpers' */
 .helpers button {
   margin: 5px;
   padding-left: 50px;
   padding-right: 50px;
 }
 
+/* Stiluri CSS pentru containerul '.helpers' */
 .helpers {
   display: flex;
   align-items: center;
   padding: 10px;
 }
 
+/* Stiluri CSS pentru elementul '.result' */
 .result {
   padding: 17px 10px 10px 10px;
   margin: 10px auto; /* Setăm margin: auto pentru a centra div-ul pe orizontală */
@@ -57,6 +64,7 @@
   font-size: 18px;
 }
 
+/* Stiluri CSS pentru elementele '.cards' și '.second-card' */
 .cards {
   flex: 1fr;
   margin-left: 20px;
@@ -74,7 +82,7 @@
   /* Alte stilizări dorite pentru a doua carte */
 }
 
-
+/* Stiluri CSS pentru elementul '.bet' */
 .bet {
   display: grid;
   grid-template-columns: 30px 60px auto;
@@ -86,16 +94,19 @@
   padding-top: 30px;
 }
 
+/* Stiluri CSS pentru eticheta cu id-ul 'Abel' */
 #Abel {
   font-size: 20px;
   font-weight: bolder;
 }
 
+/* Stiluri CSS pentru elementul '.balance' */
 .balance {
   font-size: 20px;
   font-style: bold;
 }
 
+/* Stiluri CSS pentru notificările 'insurance-notification' și 'no-blackjack-notification' */
 #insurance-notification, #no-blackjack-notification {
   background-color: white;
   position: absolute;
@@ -108,18 +119,22 @@
   text-align: center;
 }
 
+/* Stiluri CSS pentru paragrafele din notificare */
 #insurance-notification p {
   margin-bottom: 10px;
 }
 
+/* Stiluri CSS pentru inputurile din notificare */
 #insurance-notification .insurance-input {
   margin-bottom: 10px; /* Adaugăm spațiu între input și butoane */
 }
 
+/* Stiluri CSS pentru etichetele din notificare */
 #insurance-notification label {
   display: block; /* Facem ca eticheta să fie un element block pentru a ocupa întreaga lățime disponibilă */
 }
 
+/* Stiluri CSS pentru inputurile din notificare */
 #insurance-notification input {
   width: 100%; /* Asigurăm ca inputul să ocupe întreaga lățime disponibilă */
   box-sizing: border-box; /* Includem padding-ul și border-ul în lățimea totală a inputului */
@@ -129,6 +144,7 @@
   margin-bottom: 10px;
 }
 
+/* Stiluri CSS pentru butonul de răspuns din notificare */
 #response {
   background-color: white;
   border: 1px solid  black;
@@ -137,10 +153,12 @@
   border-radius: 8px;
 }
 
+/* Stiluri CSS pentru elementul '.hand' */
 .hand {
   margin-bottom: 20px;
 }
 
+/* Stiluri CSS pentru containerul de cărți */
 .cards-container-1, .cards-container-2 {
   margin-top: 30px;
   display: flex;
@@ -148,6 +166,7 @@
   justify-content: center;
 }
 
+/* Stiluri CSS pentru cărțile divizate */
 .cards-split {
   flex: 1fr;
   margin-left: 20px;
@@ -158,6 +177,7 @@
   color: red;
 }
 
+/* Stiluri CSS pentru totalul mâinilor divizate */
 .total-split-1, .total-split-2 {
   font-weight: bold;
   margin-top: 10px;
@@ -165,10 +185,19 @@
   font-size: 20px;
 }
 
+/* Stiluri CSS pentru mâna 1 */
 .hand-1{
   margin-right: 100px;
 }
 
+/* Stiluri CSS pentru mâna 2 */
 .hand-2 {
   margin-left: 100px;
+}
+
+/* Stiluri CSS pentru evidențierea mâinii */
+.highlight {
+  border: 2px solid yellow; /* Un contur galben de 2px */
+  background-color: lightyellow; /* Un fundal galben deschis */
+  /* Alte stiluri, cum ar fi umbra sau culoarea textului, pot fi adăugate și ele */
 }

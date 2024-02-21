@@ -1,7 +1,7 @@
 import {result, dealer, playeer, total_dealer, total_player, balanceAmount} from './div.js';
 import {play_btn, stand_btn, hit_btn, double_btn, disable, enable, restart,split_btn} from './buttons.js';
 import {showInsuranceNotification, hideInsuranceNotification,showResponseNotification,hideResponseNotification} from './insurance.js';
-import {showSplitElement,hideSplitElement} from './split.js';
+import {showSplitElement,hideSplitElement, highlightHand, removeHighlight} from './split.js';
 
 // Clasa Player reprezintă logica jocului și acțiunile jucătorului
 class Player {
@@ -147,7 +147,10 @@ class Player {
             alert("Your bet exceeds your balance. Please lower your bet amount.");
             restart();
             return; // Întrerupe executarea metodei în caz de pariu excesiv
-        }else{
+        }else if(this.betAmount > 1000){
+            alert("Maxim bet amount is 1000");
+            restart();
+         }else{
 
         this.initializeCards();
         this.balance -= this.betAmount;
@@ -377,10 +380,15 @@ class Player {
                 }
             }else{
                 totalElement.textContent = 'BUST';
+                if(participant === this.player.split.first_hand){
+                    removeHighlight(1);
+                    highlightHand(2);
+                }
                 if(this.player.split.second_hand === participant && this.player.split.first_hand.ok === 0){
                     this.standSplit();
                 }
                 if(this.player.split.first_hand.ok && this.player.split.second_hand.ok){
+                    removeHighlight(2);
                     hit_btn.removeAttribute('data-split');
                     stand_btn.removeAttribute('data-split');
                     result.textContent += ` You lost ${this.betAmount*2} units!`;
@@ -469,7 +477,10 @@ class Player {
 
     // Gestionarea comportamentului pentru as
     ace(participant, card, totalElement) {
-        if (card == 'Ace' && this.sum(this.player) <= 21) {
+        if (card == 'Ace' && this.sum(this.player) <= 21 ) {
+            if (participant.cards.length === 2 && this.sum(participant) === 21) {
+                return; // Nu face nimic dacă lungimea listei de cărți este 2 și suma este 21
+            }
             totalElement.textContent = `Total: ${(this.sum(participant) - 10)}/${this.sum(participant)}`;
         }
     }
@@ -507,6 +518,7 @@ class Player {
     
         // Ascunde butonul de split după ce jucătorul a împărțit mâinile
         hideSplitElement();
+        highlightHand(1);
     }
     
     
@@ -541,6 +553,9 @@ class Player {
             handBox.appendChild(totalDiv);
 
             playeer.appendChild(handBox);
+
+            this.ace(hand, hand.names[0],document.querySelector(`.total-split-${index + 1}`));
+            this.ace(hand, hand.names[1],document.querySelector(`.total-split-${index + 1}`));
         });
     }
 
@@ -551,6 +566,7 @@ class Player {
         disable(hit_btn);
         disable(double_btn);
         disable(stand_btn);
+        removeHighlight(2);
         this.dealer_second.textContent = this.dealer.names[1] = this.conversion(this.dealer.cards[1]);
         this.dealer_second.classList.remove('second-card');
         /*
@@ -586,54 +602,72 @@ class Player {
             if (this.player.split.first_hand.ok === 0 && this.player.split.second_hand.ok === 0) {
                 result.textContent = `Win BOTH HANDS`;
                 this.balance += this.betAmount * 4;
-                balanceAmount.textContent = this.balance;
             } else if (this.player.split.first_hand.ok === 1 && this.player.split.second_hand.ok === 0) {
                 result.textContent = `Lost FIRST HAND, Win SECOND HAND`;
                 this.balance += this.betAmount * 2;
-                balanceAmount.textContent = this.balance;
             } else if (this.player.split.first_hand.ok === 0 && this.player.split.second_hand.ok === 1) {
                 result.textContent = `Win FIRST HAND, Lost SECOND HAND`;
                 this.balance += this.betAmount * 2;
-                balanceAmount.textContent = this.balance;
-            } else {
-                
+            } else if (this.player.split.first_hand.ok === 1 && this.player.split.second_hand.ok === 1) {
+                result.textContent = `LOST ON BOTH`;
+                this.balance += this.betAmount * 2;
             }
         } else {
-            if(this.player.split.first_hand.ok === 0 && this.player.split.second_hand.ok === 0){
-                if((this.sum(this.player.split.first_hand) > this.sum(this.dealer)) && (this.sum(this.player.split.second_hand) > this.sum(this.dealer)) ){
+            if (this.player.split.first_hand.ok === 0 && this.player.split.second_hand.ok === 0) {
+                if ((this.sum(this.player.split.first_hand) > this.sum(this.dealer)) && (this.sum(this.player.split.second_hand) > this.sum(this.dealer))) {
                     result.textContent = `Win BOTH HANDS`;
                     this.balance += this.betAmount * 4;
-                    balanceAmount.textContent = this.balance;
-                }else if((this.sum(this.player.split.first_hand) < this.sum(this.dealer)) && (this.sum(this.player.split.second_hand) > this.sum(this.dealer))){
+                } else if ((this.sum(this.player.split.first_hand) < this.sum(this.dealer)) && (this.sum(this.player.split.second_hand) > this.sum(this.dealer))) {
                     result.textContent = `Lost FIRST HAND, Win SECOND HAND`;
                     this.balance += this.betAmount * 2;
-                    balanceAmount.textContent = this.balance;
-                }else if((this.sum(this.player.split.first_hand) > this.sum(this.dealer)) && (this.sum(this.player.split.second_hand) < this.sum(this.dealer))){
+                } else if ((this.sum(this.player.split.first_hand) > this.sum(this.dealer)) && (this.sum(this.player.split.second_hand) < this.sum(this.dealer))) {
                     result.textContent = `Win FIRST HAND, Lost SECOND HAND`;
                     this.balance += this.betAmount * 2;
-                    balanceAmount.textContent = this.balance;
-                }else{
+                } else if ((this.sum(this.player.split.first_hand) === this.sum(this.dealer)) && (this.sum(this.player.split.second_hand) === this.sum(this.dealer))) {
+                    result.textContent = `Push ON BOTH`;
+                    this.balance += this.betAmount * 2;
+                } else if ((this.sum(this.player.split.first_hand) === this.sum(this.dealer)) && (this.sum(this.player.split.second_hand) > this.sum(this.dealer))) {
+                    result.textContent = `Push ON FIRST, Win SECOND HAND`;
+                    this.balance += this.betAmount * 2;
+                } else if ((this.sum(this.player.split.first_hand) > this.sum(this.dealer)) && (this.sum(this.player.split.second_hand) === this.sum(this.dealer))) {
+                    result.textContent = `Win FIRST HAND, Push ON SECOND`;
+                    this.balance += this.betAmount * 2;
+                } else if ((this.sum(this.player.split.first_hand) < this.sum(this.dealer)) && (this.sum(this.player.split.second_hand) === this.sum(this.dealer))) {
+                    result.textContent = `Lost FIRST HAND, Push ON SECOND`;
+                    this.balance += this.betAmount;
+                } else if ((this.sum(this.player.split.first_hand) === this.sum(this.dealer)) && (this.sum(this.player.split.second_hand) < this.sum(this.dealer))) {
+                    result.textContent = `Push ON FIRST, Lost SECOND HAND`;
+                    this.balance += this.betAmount;
+                } else {
                     result.textContent = `Lost BOTH`;
                 }
-            }else if(this.player.split.first_hand.ok === 1 && this.player.split.second_hand.ok === 0){
-                if(this.sum(this.player.split.second_hand) > this.sum(this.dealer)){
+            } else if (this.player.split.first_hand.ok === 1 && this.player.split.second_hand.ok === 0) {
+                if (this.sum(this.player.split.second_hand) > this.sum(this.dealer)) {
                     result.textContent = `Lost FIRST HAND, Win SECOND HAND`;
                     this.balance += this.betAmount * 2;
-                    balanceAmount.textContent = this.balance;
-                }else{
+                } else if (this.sum(this.player.split.second_hand) === this.sum(this.dealer)) {
+                    result.textContent = `Lost FIRST HAND, Push ON SECOND`;
+                    this.balance += this.betAmount;
+                } else {
                     result.textContent = `Lost BOTH`;
                 }
-            }else if(this.player.split.first_hand.ok === 0 && this.player.split.second_hand.ok === 1){
-                if(this.sum(this.player.split.first_hand) > this.sum(this.dealer)){
+            } else if (this.player.split.first_hand.ok === 0 && this.player.split.second_hand.ok === 1) {
+                if (this.sum(this.player.split.first_hand) > this.sum(this.dealer)) {
                     result.textContent = `Win FIRST HAND, Lost SECOND HAND`;
                     this.balance += this.betAmount * 2;
-                    balanceAmount.textContent = this.balance;
-                }else{
+                } else if (this.sum(this.player.split.first_hand) === this.sum(this.dealer)) {
+                    result.textContent = `Push ON FIRST, Lost SECOND HAND`;
+                    this.balance += this.betAmount;
+                } else {
                     result.textContent = `Lost BOTH`;
                 }
             }
         }
+        balanceAmount.textContent = this.balance;
     }
+    
+    
+    
     
 
 

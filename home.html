@@ -8,6 +8,7 @@
     <title>BLACKJACK</title>
   </head>
   <body>
+    <!-- Secțiune pentru afișarea notificării de asigurare -->
     <div id="insurance-notification" style="display: none;">
       <p>Dealer might have a blackjack. Would you like to get insurance?</p>
       <label for="insurance-amount">Insurance Amount:</label>
@@ -15,30 +16,39 @@
       <button id="take-insurance">Insurance</button>
       <button id="decline-insurance">No insurance</button>
     </div>    
+    <!-- Secțiune pentru afișarea notificării când dealerul nu are blackjack -->
     <div id="no-blackjack-notification" style="display: none;">
       <p>Dealer doesn't have a blackjack!</p>
       <button id="response">Close</button>
     </div> 
+    <!-- Secțiunea principală a jocului de blackjack -->
     <div class="game">
-      <!-- Element pentru afișarea balanței -->
+      <!-- Element pentru afișarea rezultatului jocului -->
       <div class="result"></div>
+      <!-- Secțiune pentru dealer -->
       <div class="dealer">
-        <div class="dealer-cards">
-
-        </div>
+        <!-- Container pentru cărțile dealerului -->
+        <div class="dealer-cards"></div>
+        <!-- Afișare total puncte dealer -->
         <div class="total-dealer"></div>
       </div>
+      <!-- Secțiune pentru jucător -->
       <div class="player">
-        <div class="player-cards">
-        </div>
+        <!-- Container pentru cărțile jucătorului -->
+        <div class="player-cards"></div>
+        <!-- Afișare total puncte jucător -->
         <div class="total-player"></div>
       </div>
+      <!-- Secțiune pentru pariuri -->
       <div class="bet">
+        <!-- Etichetă pentru suma pariului -->
         <label id="Abel" for="betAmount">Bet:</label>
+        <!-- Input pentru introducerea sumei pariului -->
         <input type="number" id="betAmount"  min="10" max="100">
-        <div class="balance">Balance: <span id="balanceAmount">100</span> units</div>
+        <!-- Afișare balanță -->
+        <div class="balance">Balance: <span id="balanceAmount">10000</span> units</div>
       </div>
-      <!-- Etichetă și input pentru suma pariului -->
+      <!-- Secțiune pentru butoanele de acțiuni -->
       <div class="helpers">
         <button id="play">PLAY</button>
         <button id="hit" disabled>HIT</button>
@@ -47,6 +57,7 @@
         <button id="split" style="display: none;">SPLIT</button>
       </div>
     </div>
+    <!-- Importuri pentru fișierele JavaScript -->
     <script src="class.js" type="module"></script>
     <script src="main.js" type="module"></script>
     <script src="div.js" type="module"></script>
