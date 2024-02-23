@@ -1,10 +1,10 @@
 /* Stiluri CSS pentru elementul '.game' */
 .game {
   margin: 70px auto;
-  background-color: lightblue;
-  border: 2px solid black;
-  width: 1050px; 
-  height: 850px; 
+  background-color: #2e1437; /* Dark Purple */
+  border: 4px solid #51425f; /* Dark Purple border */
+  width: 1000px; 
+  height: 800px; 
   padding: 50px ;
   display: grid;
   grid-template-rows:  50px auto auto 100px 50px; /* Adăugat */
@@ -16,11 +16,12 @@
   padding: 15px;
   margin: 10px;
   text-align: center;
-  border: 1px solid black;
+  border: 2px solid #51425f; /* Dark Purple border */
   margin-top: 40px;
   display: flex;
   flex-direction: column; /* Modificare */
   align-items: center; /* Modificare */
+  border-radius: 10px;
 }
 
 /* Stiluri CSS pentru elementele '.dealer-cards' și '.player-cards' */
@@ -35,6 +36,7 @@
 .total-dealer, .total-player {
   margin-top: 30px; /* Modificare */
   font-size: 30px;
+  color: #948e99; /* Gray */
 }
 
 /* Stiluri CSS pentru butoanele din '.helpers' */
@@ -42,6 +44,11 @@
   margin: 5px;
   padding-left: 50px;
   padding-right: 50px;
+  background-color: #f38630; /* Orange */
+  color: white;
+  border: 2px solid #fa6900; /* Dark Orange border */
+  border-radius: 20px;
+  cursor: pointer;
 }
 
 /* Stiluri CSS pentru containerul '.helpers' */
@@ -52,17 +59,21 @@
 }
 
 /* Stiluri CSS pentru elementul '.result' */
+/* Stiluri CSS pentru elementul '.result' */
 .result {
-  padding: 17px 10px 10px 10px;
-  margin: 10px auto; /* Setăm margin: auto pentru a centra div-ul pe orizontală */
+  padding: 15px 10px 10px 10px;
+  margin: 10px auto;
   text-align: center;
-  border: 1px solid black;
+  border: 2px solid #2e1437; /* Border Color Dark Purple */
+  background-color: #51425f; /* Background Color Dark Purple */
   width: 200px;
-  color: red;
+  color: #e7eed0; /* Text Color Light Purple */
   font-weight: bold;
   height: 30px;
   font-size: 18px;
 }
+
+
 
 /* Stiluri CSS pentru elementele '.cards' și '.second-card' */
 .cards {
@@ -70,15 +81,17 @@
   margin-left: 20px;
   font-size: 40px;
   border-style: solid;
-  border-color: black;
+  border-color: #51425f; /* Dark Purple border */
   padding: 5px;
-  color: red;
+  color: #f38630; /* Orange text */
+  border-radius: 10px;
 }
 
 .second-card {
-  background-color: lightgray; /* Schimbă fundalul pentru a doua carte */
-  color: black; /* Schimbă culoarea textului pentru a doua carte */
+  background-color: #cad1c3; /* Light Green background */
+  color: #51425f; /* Dark Purple text */
   font-style: bold;
+  border-radius: 10px;
   /* Alte stilizări dorite pentru a doua carte */
 }
 
@@ -98,44 +111,49 @@
 #Abel {
   font-size: 20px;
   font-weight: bolder;
+  color: white; /* White text */
 }
 
 /* Stiluri CSS pentru elementul '.balance' */
 .balance {
   font-size: 20px;
   font-style: bold;
+  color: white; /* White text */
 }
 
 /* Stiluri CSS pentru notificările 'insurance-notification' și 'no-blackjack-notification' */
 #insurance-notification, #no-blackjack-notification {
-  background-color: white;
+  background-color: #e7eed0; /* Light Purple */
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;
-  border: 2px solid #000;
+  border: 2px solid #51425f; /* Dark Purple */
   border-radius: 10px;
   text-align: center;
+  color: #51425f; /* Dark Purple */
 }
 
 /* Stiluri CSS pentru paragrafele din notificare */
-#insurance-notification p {
+#insurance-notification p, #no-blackjack-notification p {
   margin-bottom: 10px;
+  color: #51425f; /* Dark Purple */
 }
 
 /* Stiluri CSS pentru inputurile din notificare */
-#insurance-notification .insurance-input {
+#insurance-notification .insurance-input, #no-blackjack-notification .insurance-input {
   margin-bottom: 10px; /* Adaugăm spațiu între input și butoane */
 }
 
 /* Stiluri CSS pentru etichetele din notificare */
-#insurance-notification label {
+#insurance-notification label, #no-blackjack-notification label {
   display: block; /* Facem ca eticheta să fie un element block pentru a ocupa întreaga lățime disponibilă */
+  color: #51425f; /* Dark Purple */
 }
 
 /* Stiluri CSS pentru inputurile din notificare */
-#insurance-notification input {
+#insurance-notification input, #no-blackjack-notification input {
   width: 100%; /* Asigurăm ca inputul să ocupe întreaga lățime disponibilă */
   box-sizing: border-box; /* Includem padding-ul și border-ul în lățimea totală a inputului */
   padding: 5px; /* Adăugăm puțin spațiu în interiorul inputului */
@@ -146,12 +164,14 @@
 
 /* Stiluri CSS pentru butonul de răspuns din notificare */
 #response {
-  background-color: white;
-  border: 1px solid  black;
+  background-color: #e7eed0; /* Light Purple */
+  border: 1px solid #51425f; /* Dark Purple */
+  color: #51425f; /* Dark Purple */
   height: 30px;
   width: 60px;
   border-radius: 8px;
 }
+
 
 /* Stiluri CSS pentru elementul '.hand' */
 .hand {
@@ -172,9 +192,10 @@
   margin-left: 20px;
   font-size: 30px;
   border-style: solid;
-  border-color: black;
+  border-color: #51425f; /* Dark Purple border */
   padding: 5px;
-  color: red;
+  color: #f38630; /* Orange text */
+  border-radius: 10px;
 }
 
 /* Stiluri CSS pentru totalul mâinilor divizate */
@@ -183,6 +204,7 @@
   margin-top: 10px;
   margin-top: 20px; /* Modificare */
   font-size: 20px;
+  color: #f38630; /* Orange text */
 }
 
 /* Stiluri CSS pentru mâna 1 */
@@ -197,7 +219,16 @@
 
 /* Stiluri CSS pentru evidențierea mâinii */
 .highlight {
-  border: 2px solid yellow; /* Un contur galben de 2px */
-  background-color: lightyellow; /* Un fundal galben deschis */
-  /* Alte stiluri, cum ar fi umbra sau culoarea textului, pot fi adăugate și ele */
+  border: 2px solid yellow; /* Yellow border */
+  background-color: lightyellow; /* Light Yellow background */
+}
+
+
+/* Stiluri CSS pentru butoanele dezactivate */
+.helpers button:disabled {
+  background-color: #f0f0f0; /* Light Gray background */
+  border: 1px solid #ccc; /* Light Gray border */
+  color: #999; /* Light Gray text color */
+  cursor: not-allowed; /* Cursorul devine "not-allowed" când butonul este dezactivat */
+  opacity: 0.7; /* Opacitate redusă pentru a indica că butonul este dezactivat */
 }
